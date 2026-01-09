@@ -1,5 +1,5 @@
-# Backend Developer Complete Guide com TODOS os tópicos solicitados! 🚀
-📚 Conteúdo Completo Incluído:
+# Backend Developer Complete Guide 🚀
+
 1. HTTP & APIs
 
 HTTP Methods (GET, POST, PUT, PATCH, DELETE) com exemplos Express.js
