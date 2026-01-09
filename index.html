@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Developer Complete Guide 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0d1117; --card: #161b22; --accent: #58a6ff; --text: #e6edf3;
+            --dim: #8b949e; --border: #30363d; --success: #3fb950; --warning: #d29922;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(13,17,23,0.95); backdrop-filter: blur(10px);
+              border-bottom: 1px solid var(--border); z-index: 1000; padding: 1rem 2rem; display: flex;
+              justify-content: space-between; align-items: center; }
+        .logo { font-family: 'JetBrains Mono'; font-weight: 700; color: var(--accent); }
+        .sidebar { position: fixed; left: 0; top: 60px; width: 250px; height: calc(100vh - 60px);
+                   background: var(--card); border-right: 1px solid var(--border); overflow-y: auto; padding: 1.5rem 0; }
+        .sidebar-link { display: block; padding: 0.4rem 1rem; color: var(--dim); text-decoration: none;
+                        font-size: 0.85rem; border-left: 2px solid transparent; }
+        .sidebar-link:hover { color: var(--accent); background: rgba(88,166,255,0.05); border-left-color: var(--accent); }
+        main { margin-left: 250px; margin-top: 60px; padding: 2rem; max-width: 1200px; }
+        .hero { padding: 2rem 0; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--accent); }
+        .section { margin-bottom: 3rem; scroll-margin-top: 80px; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; font-family: 'JetBrains Mono'; }
+        h3 { font-size: 1.5rem; margin: 1.5rem 0 0.8rem; color: var(--accent); }
+        .code-block { background: var(--card); border: 1px solid var(--border); border-radius: 6px; margin: 1rem 0; overflow: hidden; }
+        .code-header { padding: 0.6rem 1rem; background: rgba(88,166,255,0.05); display: flex; justify-content: space-between; }
+        .code-lang { font-family: 'JetBrains Mono'; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; }
+        .copy-btn { background: transparent; border: 1px solid var(--border); color: var(--dim); padding: 0.3rem 0.7rem;
+                    border-radius: 4px; cursor: pointer; font-size: 0.7rem; }
+        pre { padding: 1rem; overflow-x: auto; }
+        code { font-family: 'JetBrains Mono'; font-size: 0.85rem; color: var(--text); }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+        th, td { padding: 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: var(--card); color: var(--accent); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; }
+        .info-box { border-left: 3px solid var(--accent); padding: 1rem; margin: 1rem 0; background: rgba(88,166,255,0.05); }
+        .refs { margin-top: 1.5rem; padding: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; }
+        .refs h4 { color: var(--accent); margin-bottom: 0.5rem; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { margin: 0.8rem 0 0.8rem 1.5rem; }
+        p code, li code { background: var(--card); padding: 0.2rem 0.4rem; border-radius: 3px; border: 1px solid var(--border); }
+        @media (max-width: 1024px) { .sidebar { display: none; } main { margin-left: 0; } }
+    </style>
+</head>
+<body>
+    <nav><div class="logo">⚡ Backend Developer Guide</div><div style="color: var(--dim); font-size: 0.85rem;">Complete Reference 2026</div></nav>
+    
+    <aside class="sidebar">
+        <a href="#http" class="sidebar-link">HTTP Methods & Status</a>
+        <a href="#auth" class="sidebar-link">Authentication</a>
+        <a href="#security" class="sidebar-link">Security</a>
+        <a href="#websockets" class="sidebar-link">WebSockets</a>
+        <a href="#databases" class="sidebar-link">Databases</a>
+        <a href="#architecture" class="sidebar-link">System Design</a>
+        <a href="#devops" class="sidebar-link">DevOps & Docker</a>
+        <a href="#scaling" class="sidebar-link">Scalability</a>
+        <a href="#testing" class="sidebar-link">Testing & Quality</a>
+    </aside>
+    
+    <main>
+        <div class="hero">
+            <h1>Backend Developer Guide</h1>
+            <p style="color: var(--dim);">Comprehensive technical reference with practical examples and implementation guides</p>
+        </div>
+
+        <!-- HTTP METHODS & STATUS CODES -->
+        <section class="section" id="http">
+            <h2 class="section-title">HTTP Methods & Status Codes</h2>
+            
+            <h3>HTTP Methods</h3>
+            <table>
+                <tr><th>Method</th><th>Purpose</th><th>Idempotent</th><th>Example Use</th></tr>
+                <tr><td><code>GET</code></td><td>Retrieve resource</td><td>✓</td><td>Get user list</td></tr>
+                <tr><td><code>POST</code></td><td>Create resource</td><td>✗</td><td>Create new user</td></tr>
+                <tr><td><code>PUT</code></td><td>Replace resource</td><td>✓</td><td>Update full user</td></tr>
+                <tr><td><code>PATCH</code></td><td>Partial update</td><td>✗</td><td>Update user email</td></tr>
+                <tr><td><code>DELETE</code></td><td>Remove resource</td><td>✓</td><td>Delete user</td></tr>
+            </table>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Express.js API</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>// RESTful API Implementation
+router.get('/users', async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+router.post('/users', async (req, res) => {
+    const user = await User.create(req.body);
+    res.status(201).location(\`/users/\${user.id}\`).json(user);
+});
+
+router.patch('/users/:id', async (req, res) => {
+    const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
+    if (!user) return res.status(404).json({ error: 'Not found' });
+    res.json(user);
+});</code></pre>
+            </div>
+
+            <h3>HTTP Status Codes</h3>
+            <table>
+                <tr><th>Code</th><th>Meaning</th><th>When to Use</th></tr>
+                <tr><td><code>200</code></td><td>OK</td><td>Successful GET, PUT, PATCH</td></tr>
+                <tr><td><code>201</code></td><td>Created</td><td>Successful POST with new resource</td></tr>
+                <tr><td><code>204</code></td><td>No Content</td><td>Successful DELETE</td></tr>
+                <tr><td><code>400</code></td><td>Bad Request</td><td>Invalid request body/params</td></tr>
+                <tr><td><code>401</code></td><td>Unauthorized</td><td>Missing/invalid authentication</td></tr>
+                <tr><td><code>403</code></td><td>Forbidden</td><td>Authenticated but no permission</td></tr>
+                <tr><td><code>404</code></td><td>Not Found</td><td>Resource doesn't exist</td></tr>
+                <tr><td><code>429</code></td><td>Too Many Requests</td><td>Rate limit exceeded</td></tr>
+                <tr><td><code>500</code></td><td>Internal Server Error</td><td>Unexpected server error</td></tr>
+            </table>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">MDN: HTTP Methods</a></li>
+                    <li><a href="https://httpstatuses.com/">HTTP Status Code Registry</a></li>
+                    <li><a href="https://restfulapi.net/">RESTful API Tutorial</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- AUTHENTICATION -->
+        <section class="section" id="auth">
+            <h2 class="section-title">Authentication: OAuth, OIDC, JWT & Sessions</h2>
+            
+            <h3>OAuth 2.0 vs OpenID Connect</h3>
+            <table>
+                <tr><th>Aspect</th><th>OAuth 2.0</th><th>OpenID Connect (OIDC)</th></tr>
+                <tr><td>Purpose</td><td>Authorization (access)</td><td>Authentication (identity)</td></tr>
+                <tr><td>Token</td><td>Access Token</td><td>ID Token (JWT) + Access Token</td></tr>
+                <tr><td>User Info</td><td>No</td><td>Yes (profile, email, etc)</td></tr>
+                <tr><td>Use Case</td><td>API access delegation</td><td>Single Sign-On (SSO)</td></tr>
+            </table>
+
+            <h3>JWT vs Sessions</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                <div style="background: var(--card); border: 1px solid var(--border); padding: 1rem; border-radius: 6px;">
+                    <h4 style="color: var(--accent); margin-top: 0;">JWT (Stateless)</h4>
+                    <ul style="font-size: 0.9rem; color: var(--dim);">
+                        <li>Self-contained tokens</li>
+                        <li>No server storage</li>
+                        <li>Scales easily horizontally</li>
+                        <li>Can't revoke before expiry</li>
+                        <li>Larger payload</li>
+                    </ul>
+                </div>
+                <div style="background: var(--card); border: 1px solid var(--border); padding: 1rem; border-radius: 6px;">
+                    <h4 style="color: var(--accent); margin-top: 0;">Sessions (Stateful)</h4>
+                    <ul style="font-size: 0.9rem; color: var(--dim);">
+                        <li>Session ID in cookie</li>
+                        <li>Requires Redis/DB storage</li>
+                        <li>Needs sticky sessions</li>
+                        <li>Instant revocation</li>
+                        <li>Smaller cookie</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">JWT Implementation</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const jwt = require('jsonwebtoken');
+
+// Generate JWT
+function generateToken(userId) {
+    return jwt.sign(
+        { userId, type: 'access' },
+        process.env.JWT_SECRET,
+        { expiresIn: '15m' }
+    );
+}
+
+// Verify middleware
+function auth(req, res, next) {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token' });
+    
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.userId;
+        next();
+    } catch (err) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+}</code></pre>
+            </div>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://oauth.net/2/">OAuth 2.0 Official</a></li>
+                    <li><a href="https://openid.net/connect/">OpenID Connect</a></li>
+                    <li><a href="https://jwt.io/">JWT.io</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SECURITY -->
+        <section class="section" id="security">
+            <h2 class="section-title">Security: Hashing, Encryption & Rate Limiting</h2>
+            
+            <h3>Password Hashing with Bcrypt</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Node.js</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const bcrypt = require('bcrypt');
+const SALT_ROUNDS = 12;
+
+// Hash password
+async function hashPassword(password) {
+    return await bcrypt.hash(password, SALT_ROUNDS);
+}
+
+// Verify password
+async function verifyPassword(password, hash) {
+    return await bcrypt.compare(password, hash);
+}
+
+// Registration
+router.post('/register', async (req, res) => {
+    const hashedPassword = await hashPassword(req.body.password);
+    const user = await User.create({ ...req.body, password: hashedPassword });
+    res.status(201).json({ id: user.id });
+});</code></pre>
+            </div>
+
+            <h3>Encryption Standards</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">AES-256 Encryption</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const crypto = require('crypto');
+
+// Encrypt data
+function encrypt(text, key) {
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-gcm', Buffer.from(key, 'hex'), iv);
+    const encrypted = Buffer.concat([cipher.update(text, 'utf8'), cipher.final()]);
+    const authTag = cipher.getAuthTag();
+    return { iv: iv.toString('hex'), data: encrypted.toString('hex'), authTag: authTag.toString('hex') };
+}
+
+// Decrypt data
+function decrypt(encrypted, key) {
+    const decipher = crypto.createDecipheriv('aes-256-gcm', Buffer.from(key, 'hex'), Buffer.from(encrypted.iv, 'hex'));
+    decipher.setAuthTag(Buffer.from(encrypted.authTag, 'hex'));
+    const decrypted = Buffer.concat([decipher.update(Buffer.from(encrypted.data, 'hex')), decipher.final()]);
+    return decrypted.toString('utf8');
+}</code></pre>
+            </div>
+
+            <h3>Rate Limiting & DDoS Protection</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Express Rate Limit</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const rateLimit = require('express-rate-limit');
+const RedisStore = require('rate-limit-redis');
+const redis = require('redis');
+
+const limiter = rateLimit({
+    store: new RedisStore({ client: redis.createClient() }),
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests, please try again later',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+app.use('/api/', limiter);</code></pre>
+            </div>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP: Password Storage</a></li>
+                    <li><a href="https://nodejs.org/api/crypto.html">Node.js Crypto Module</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- WEBSOCKETS -->
+        <section class="section" id="websockets">
+            <h2 class="section-title">WebSockets & Real-time Communication</h2>
+            
+            <p>WebSockets provide full-duplex communication channels over a single TCP connection, enabling real-time data transfer.</p>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Socket.io Server</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const io = require('socket.io')(server, {
+    cors: { origin: '*' }
+});
+
+io.on('connection', (socket) => {
+    console.log('Client connected:', socket.id);
+    
+    // Join room
+    socket.on('join', (room) => {
+        socket.join(room);
+        socket.to(room).emit('user-joined', socket.id);
+    });
+    
+    // Broadcast message
+    socket.on('message', (data) => {
+        io.to(data.room).emit('message', {
+            user: socket.id,
+            text: data.text,
+            timestamp: Date.now()
+        });
+    });
+    
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Client Implementation</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const socket = io('http://localhost:3000');
+
+socket.on('connect', () => {
+    console.log('Connected to server');
+    socket.emit('join', 'room1');
+});
+
+socket.on('message', (data) => {
+    console.log('New message:', data);
+});
+
+function sendMessage(text) {
+    socket.emit('message', { room: 'room1', text });
+}</code></pre>
+            </div>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://socket.io/docs/">Socket.io Documentation</a></li>
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">MDN: WebSockets API</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DATABASES -->
+        <section class="section" id="databases">
+            <h2 class="section-title">Databases: SQL, NoSQL, ACID & Optimization</h2>
+            
+            <h3>SQL vs NoSQL</h3>
+            <table>
+                <tr><th>Feature</th><th>SQL (PostgreSQL, MySQL)</th><th>NoSQL (MongoDB, Cassandra)</th></tr>
+                <tr><td>Schema</td><td>Fixed schema, tables</td><td>Flexible schema, documents</td></tr>
+                <tr><td>Scalability</td><td>Vertical (scale up)</td><td>Horizontal (scale out)</td></tr>
+                <tr><td>ACID</td><td>Full ACID compliance</td><td>Eventually consistent</td></tr>
+                <tr><td>Joins</td><td>Complex joins supported</td><td>No joins (denormalized)</td></tr>
+                <tr><td>Use Case</td><td>Structured data, transactions</td><td>Flexible data, high throughput</td></tr>
+            </table>
+
+            <h3>ACID Properties</h3>
+            <ul>
+                <li><strong>Atomicity:</strong> All operations succeed or all fail</li>
+                <li><strong>Consistency:</strong> Database remains in valid state</li>
+                <li><strong>Isolation:</strong> Concurrent transactions don't interfere</li>
+                <li><strong>Durability:</strong> Committed data persists permanently</li>
+            </ul>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">PostgreSQL Transaction</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>-- Bank transfer example
+BEGIN;
+
+UPDATE accounts SET balance = balance - 100 WHERE user_id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE user_id = 2;
+
+-- Only commits if both succeed
+COMMIT;</code></pre>
+            </div>
+
+            <h3>Indexing Strategies</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Index Types</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>-- B-Tree index (default, good for =, <, >, <=, >=)
+CREATE INDEX idx_users_email ON users(email);
+
+-- Unique index
+CREATE UNIQUE INDEX idx_users_email_unique ON users(email);
+
+-- Composite index
+CREATE INDEX idx_users_name_age ON users(last_name, first_name, age);
+
+-- Partial index
+CREATE INDEX idx_active_users ON users(email) WHERE status = 'active';
+
+-- Full-text search
+CREATE INDEX idx_posts_content ON posts USING gin(to_tsvector('english', content));</code></pre>
+            </div>
+
+            <h3>Query Optimization</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Optimization Techniques</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>-- Use EXPLAIN to analyze query
+EXPLAIN ANALYZE
+SELECT u.name, COUNT(o.id) as order_count
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.created_at > '2024-01-01'
+GROUP BY u.id, u.name
+HAVING COUNT(o.id) > 5;
+
+-- Optimize with proper indexes
+CREATE INDEX idx_users_created ON users(created_at);
+CREATE INDEX idx_orders_user ON orders(user_id);
+
+-- Avoid SELECT *, specify columns
+SELECT id, name, email FROM users;
+
+-- Use LIMIT for pagination
+SELECT * FROM users ORDER BY created_at DESC LIMIT 10 OFFSET 20;</code></pre>
+            </div>
+
+            <h3>Normalization vs Denormalization</h3>
+            <table>
+                <tr><th>Aspect</th><th>Normalization</th><th>Denormalization</th></tr>
+                <tr><td>Redundancy</td><td>Minimal</td><td>Intentional duplication</td></tr>
+                <tr><td>Writes</td><td>Fast (single location)</td><td>Slower (multiple updates)</td></tr>
+                <tr><td>Reads</td><td>Slower (requires joins)</td><td>Faster (pre-joined)</td></tr>
+                <tr><td>Storage</td><td>Efficient</td><td>More space needed</td></tr>
+                <tr><td>Use When</td><td>Write-heavy, consistency critical</td><td>Read-heavy, performance critical</td></tr>
+            </table>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://www.postgresql.org/docs/current/indexes.html">PostgreSQL: Indexes</a></li>
+                    <li><a href="https://use-the-index-luke.com/">Use The Index, Luke!</a></li>
+                    <li><a href="https://www.mongodb.com/docs/manual/indexes/">MongoDB: Indexing</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SYSTEM DESIGN -->
+        <section class="section" id="architecture">
+            <h2 class="section-title">System Design & Architecture</h2>
+            
+            <h3>Monolith vs Microservices</h3>
+            <table>
+                <tr><th>Aspect</th><th>Monolith</th><th>Microservices</th></tr>
+                <tr><td>Structure</td><td>Single deployable unit</td><td>Multiple independent services</td></tr>
+                <tr><td>Deployment</td><td>Deploy entire app</td><td>Deploy services independently</td></tr>
+                <tr><td>Scalability</td><td>Scale entire app</td><td>Scale services individually</td></tr>
+                <tr><td>Complexity</td><td>Simpler initially</td><td>Complex infrastructure</td></tr>
+                <tr><td>Technology</td><td>Single stack</td><td>Polyglot (different tech per service)</td></tr>
+                <tr><td>Best For</td><td>Small teams, MVPs</td><td>Large teams, complex systems</td></tr>
+            </table>
+
+            <h3>Load Balancing</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Nginx Load Balancer</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>http {
+    upstream backend {
+        least_conn;  # Load balancing algorithm
+        server backend1.example.com:3000 weight=3;
+        server backend2.example.com:3000 weight=2;
+        server backend3.example.com:3000 backup;
+    }
+
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://backend;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+    }
+}</code></pre>
+            </div>
+
+            <h3>Caching Strategies</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Redis Caching</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const redis = require('redis');
+const client = redis.createClient();
+
+// Cache-aside pattern
+async function getUser(id) {
+    // Try cache first
+    const cached = await client.get(\`user:\${id}\`);
+    if (cached) return JSON.parse(cached);
+    
+    // Cache miss: fetch from DB
+    const user = await User.findById(id);
+    
+    // Store in cache
+    await client.setex(\`user:\${id}\`, 3600, JSON.stringify(user));
+    
+    return user;
+}
+
+// Cache invalidation
+async function updateUser(id, data) {
+    const user = await User.findByIdAndUpdate(id, data);
+    await client.del(\`user:\${id}\`);  // Invalidate cache
+    return user;
+}</code></pre>
+            </div>
+
+            <h3>Message Brokers: Kafka vs RabbitMQ</h3>
+            <table>
+                <tr><th>Feature</th><th>Kafka</th><th>RabbitMQ</th></tr>
+                <tr><td>Model</td><td>Pub/Sub, Log-based</td><td>Queue-based, Routing</td></tr>
+                <tr><td>Throughput</td><td>Very high (millions/sec)</td><td>High (tens of thousands/sec)</td></tr>
+                <tr><td>Ordering</td><td>Guaranteed per partition</td><td>Per queue</td></tr>
+                <tr><td>Retention</td><td>Configurable (days/weeks)</td><td>Transient (consumed once)</td></tr>
+                <tr><td>Use Case</td><td>Event streaming, logs</td><td>Task queues, RPC</td></tr>
+            </table>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://nginx.org/en/docs/http/load_balancing.html">Nginx: Load Balancing</a></li>
+                    <li><a href="https://redis.io/docs/manual/patterns/">Redis: Design Patterns</a></li>
+                    <li><a href="https://kafka.apache.org/documentation/">Kafka Documentation</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DEVOPS -->
+        <section class="section" id="devops">
+            <h2 class="section-title">DevOps: Docker, CI/CD, Linux</h2>
+            
+            <h3>Docker Containerization</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Dockerfile</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code># Multi-stage build
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+FROM node:18-alpine
+WORKDIR /app
+COPY --from=builder /app/node_modules ./node_modules
+COPY . .
+EXPOSE 3000
+USER node
+CMD ["node", "server.js"]</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">docker-compose.yml</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>version: '3.8'
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=postgres
+    depends_on:
+      - postgres
+      - redis
+  
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  
+  redis:
+    image: redis:7-alpine
+    
+volumes:
+  pgdata:</code></pre>
+            </div>
+
+            <h3>CI/CD Pipeline</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">GitHub Actions</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>name: CI/CD Pipeline
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+  
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t myapp:latest .
+      - name: Push to registry
+        run: |
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push myapp:latest
+      - name: Deploy to production
+        run: kubectl apply -f k8s/</code></pre>
+            </div>
+
+            <h3>Linux Command Line Essentials</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code># Process management
+ps aux | grep node
+kill -9 <pid>
+top / htop
+
+# Logs
+tail -f /var/log/app.log
+grep "ERROR" app.log | wc -l
+journalctl -u myservice -f
+
+# Networking
+netstat -tulpn
+curl -X POST http://api.example.com/users -d '{"name":"John"}'
+wget https://example.com/file.zip
+
+# File operations
+find /var/log -name "*.log" -mtime +7 -delete
+du -sh /var/lib/docker
+tar -czf backup.tar.gz /data/
+
+# Permissions
+chmod 755 script.sh
+chown www-data:www-data /var/www/html
+
+# Bash scripting
+#!/bin/bash
+for i in {1..5}; do
+    echo "Iteration $i"
+    curl http://localhost:3000/health
+    sleep 5
+done</code></pre>
+            </div>
+
+            <h3>Cloud Services (AWS/GCP/Azure)</h3>
+            <table>
+                <tr><th>Service Type</th><th>AWS</th><th>GCP</th><th>Azure</th></tr>
+                <tr><td>Compute</td><td>EC2, Lambda</td><td>Compute Engine, Cloud Functions</td><td>VM, Functions</td></tr>
+                <tr><td>Storage</td><td>S3, EBS</td><td>Cloud Storage, Persistent Disk</td><td>Blob Storage</td></tr>
+                <tr><td>Database</td><td>RDS, DynamoDB</td><td>Cloud SQL, Firestore</td><td>SQL Database, Cosmos DB</td></tr>
+                <tr><td>Containers</td><td>ECS, EKS</td><td>GKE</td><td>AKS</td></tr>
+                <tr><td>CDN</td><td>CloudFront</td><td>Cloud CDN</td><td>Azure CDN</td></tr>
+            </table>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://docs.docker.com/get-started/">Docker Documentation</a></li>
+                    <li><a href="https://docs.github.com/en/actions">GitHub Actions Docs</a></li>
+                    <li><a href="https://www.gnu.org/software/bash/manual/">Bash Manual</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SCALABILITY -->
+        <section class="section" id="scaling">
+            <h2 class="section-title">Scalability & Performance</h2>
+            
+            <h3>Vertical vs Horizontal Scaling</h3>
+            <table>
+                <tr><th>Aspect</th><th>Vertical (Scale Up)</th><th>Horizontal (Scale Out)</th></tr>
+                <tr><td>Method</td><td>Increase server resources</td><td>Add more servers</td></tr>
+                <tr><td>Limit</td><td>Hardware maximum</td><td>Nearly unlimited</td></tr>
+                <tr><td>Cost</td><td>Expensive at scale</td><td>Cost-effective</td></tr>
+                <tr><td>Downtime</td><td>Required for upgrades</td><td>Zero downtime</td></tr>
+                <tr><td>Complexity</td><td>Simple</td><td>Requires load balancing</td></tr>
+            </table>
+
+            <h3>Database Sharding</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Sharding Strategy</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>// Hash-based sharding
+function getShardId(userId, numShards) {
+    const hash = crypto.createHash('md5').update(userId.toString()).digest('hex');
+    return parseInt(hash, 16) % numShards;
+}
+
+// Route to correct shard
+function getUserDatabase(userId) {
+    const shardId = getShardId(userId, 4);
+    return databases[shardId];
+}
+
+// Example usage
+const user = await getUserDatabase(userId).findOne({ id: userId });</code></pre>
+            </div>
+
+            <h3>Database Replication</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Master-Replica Setup</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>// Configure read/write splitting
+const masterDb = new Sequelize('postgres://master:5432/db');
+const replicaDb = new Sequelize('postgres://replica:5432/db');
+
+// Write to master
+async function createUser(data) {
+    return await masterDb.models.User.create(data);
+}
+
+// Read from replica
+async function getUsers() {
+    return await replicaDb.models.User.findAll();
+}</code></pre>
+            </div>
+
+            <h3>Connection Pooling</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">PostgreSQL Pool</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const { Pool } = require('pg');
+
+const pool = new Pool({
+    host: 'localhost',
+    port: 5432,
+    database: 'mydb',
+    user: 'postgres',
+    password: 'secret',
+    max: 20,              // Max connections
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000,
+});
+
+// Use pool for queries
+async function query(sql, params) {
+    const client = await pool.connect();
+    try {
+        const result = await client.query(sql, params);
+        return result.rows;
+    } finally {
+        client.release();
+    }
+}</code></pre>
+            </div>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://aws.amazon.com/blogs/database/sharding-with-amazon-relational-database-service/">AWS: Database Sharding</a></li>
+                    <li><a href="https://www.postgresql.org/docs/current/runtime-config-connection.html">PostgreSQL: Connection Pooling</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- TESTING & QUALITY -->
+        <section class="section" id="testing">
+            <h2 class="section-title">Testing, Logging & Monitoring</h2>
+            
+            <h3>Testing Pyramid</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Unit Tests (Jest)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>describe('UserService', () => {
+    test('should create user with hashed password', async () => {
+        const userData = { email: 'test@example.com', password: 'secret123' };
+        const user = await UserService.create(userData);
+        
+        expect(user.email).toBe(userData.email);
+        expect(user.password).not.toBe(userData.password);
+        expect(await bcrypt.compare(userData.password, user.password)).toBe(true);
+    });
+});</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Integration Tests</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const request = require('supertest');
+const app = require('../app');
+
+describe('POST /api/users', () => {
+    test('should create user and return 201', async () => {
+        const res = await request(app)
+            .post('/api/users')
+            .send({ email: 'test@example.com', password: 'secret123' });
+        
+        expect(res.status).toBe(201);
+        expect(res.body).toHaveProperty('id');
+        expect(res.body.email).toBe('test@example.com');
+    });
+});</code></pre>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Load Testing (k6)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = {
+    vus: 100,        // 100 virtual users
+    duration: '30s',  // Test duration
+};
+
+export default function() {
+    const res = http.get('http://api.example.com/users');
+    check(res, {
+        'status is 200': (r) => r.status === 200,
+        'response time < 200ms': (r) => r.timings.duration < 200,
+    });
+    sleep(1);
+}</code></pre>
+            </div>
+
+            <h3>Structured Logging</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Winston Logger</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const winston = require('winston');
+
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.errors({ stack: true }),
+        winston.format.json()
+    ),
+    transports: [
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'combined.log' }),
+    ],
+});
+
+// Usage
+logger.info('User created', { userId: 123, email: 'user@example.com' });
+logger.error('Database connection failed', { error: err.message, stack: err.stack });</code></pre>
+            </div>
+
+            <h3>Monitoring with Prometheus</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">Prometheus Metrics</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const client = require('prom-client');
+
+// Create metrics
+const httpRequestDuration = new client.Histogram({
+    name: 'http_request_duration_seconds',
+    help: 'Duration of HTTP requests in seconds',
+    labelNames: ['method', 'route', 'status_code']
+});
+
+const activeConnections = new client.Gauge({
+    name: 'active_connections',
+    help: 'Number of active connections'
+});
+
+// Middleware
+app.use((req, res, next) => {
+    const start = Date.now();
+    res.on('finish', () => {
+        const duration = (Date.now() - start) / 1000;
+        httpRequestDuration.labels(req.method, req.route.path, res.statusCode).observe(duration);
+    });
+    next();
+});
+
+// Metrics endpoint
+app.get('/metrics', async (req, res) => {
+    res.set('Content-Type', client.register.contentType);
+    res.end(await client.register.metrics());
+});</code></pre>
+            </div>
+
+            <h3>Distributed Tracing</h3>
+            <div class="code-block">
+                <div class="code-header"><span class="code-lang">OpenTelemetry</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><code>const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
+const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
+
+const provider = new NodeTracerProvider();
+const exporter = new JaegerExporter({ endpoint: 'http://localhost:14268/api/traces' });
+
+provider.addSpanProcessor(new BatchSpanProcessor(exporter));
+provider.register();
+
+// Create spans
+const tracer = provider.getTracer('my-service');
+const span = tracer.startSpan('database-query');
+// ... do work
+span.end();</code></pre>
+            </div>
+
+            <div class="refs">
+                <h4>📚 References</h4>
+                <ul>
+                    <li><a href="https://jestjs.io/docs/getting-started">Jest Documentation</a></li>
+                    <li><a href="https://k6.io/docs/">k6 Load Testing</a></li>
+                    <li><a href="https://prometheus.io/docs/introduction/overview/">Prometheus Docs</a></li>
+                    <li><a href="https://grafana.com/docs/">Grafana Documentation</a></li>
+                    <li><a href="https://opentelemetry.io/docs/">OpenTelemetry</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <div style="border-top: 1px solid var(--border); padding: 2rem 0; margin-top: 3rem; text-align: center; color: var(--dim);">
+            <p>✨ <strong>Complete Backend Developer Reference</strong> - Updated 2026</p>
+            <p style="margin-top: 0.5rem;">For questions or contributions: <a href="https://github.com/yourusername/backend-guide">GitHub</a></p>
+        </div>
+    </main>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            document.getElementById('progressBar').style.width = (window.scrollY / h) * 100 + '%';
+        });
+        
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const orig = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = orig, 2000);
+            });
+        }
+        
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
